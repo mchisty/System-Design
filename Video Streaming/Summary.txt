@@ -1,0 +1,70 @@
+Professional summary to present to the interviewer:
+
+---
+
+### ✅ **Candidate Explanation for the System Design Diagram**
+
+In this architecture diagram, I’ve designed a **scalable video streaming platform** modeled after services like YouTube. The goal is to ensure the system is **modular, horizontally scalable, and optimized for performance, availability, and maintainability**.
+
+---
+
+### 🔷 **What’s Represented**
+
+1. **Client & Entry Point**
+
+   * The diagram begins with a `Client` sending a request, which is routed through a **Load Balancer**.
+   * The **Load Balancer** is responsible for:
+
+     * SSL termination
+     * Traffic distribution
+     * Redirecting to appropriate internal services
+
+2. **API Gateways (Layered Routing)**
+
+   * I’ve introduced **multiple API Gateway instances** to decouple external traffic from internal service logic.
+   * Each API Gateway can route traffic based on path, headers, or roles to specific backend services (e.g., Uploads, Video, Metadata).
+   * This helps with **rate limiting, authentication, CORS handling**, and **centralized routing**.
+
+3. **Backend Services**
+
+   * Services like **Upload**, **Transcoding**, and **Video Service** are organized logically behind the gateways.
+   * Each service is stateless and horizontally scalable.
+   * Communication between services is mostly synchronous (solid arrows), with dashed lines indicating asynchronous flows (e.g., transcoding completion).
+
+4. **Object Storage & Databases**
+
+   * Videos are stored in a dedicated **Object Storage** system optimized for large media files.
+   * **Metadata DB** stores video metadata (title, duration, tags, etc.)
+   * **Video DB** stores additional structured video information used by recommendation engines.
+
+5. **CDN and Analytics**
+
+   * **CDN + Cache** ensures videos are served efficiently to global users with low latency.
+   * A dedicated **Recommendations and Analytics Service** processes viewership data, helping power personalized content suggestions.
+
+6. **Color-Coded Components & Legend**
+
+   * The diagram is **color-coded** to distinguish:
+
+     * Entry points (teal)
+     * Gateways and services (orange)
+     * Storage (green)
+     * Databases and analytics (beige)
+   * A **legend** is included for clarity and visual interpretation.
+
+---
+
+### 🧠 **Justification**
+
+* **Layered routing with API Gateways** improves scalability, isolation, and operational flexibility.
+* **Decoupling upload/transcode/video** services ensures each can scale independently.
+* **Object storage** is chosen over traditional DBs for handling large video files efficiently.
+* **Modular layout** makes it easier to onboard new teams, isolate failures, and apply CI/CD independently.
+* **Using a CDN** and **recommendation engine** helps optimize user experience and platform engagement.
+
+---
+
+### ✅ Summary Statement
+
+> This architecture supports high throughput, modularity, and global reach. It allows for secure, low-latency streaming while ensuring each component is independently deployable and horizontally scalable.
+
