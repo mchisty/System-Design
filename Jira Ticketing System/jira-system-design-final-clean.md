@@ -102,6 +102,7 @@
 ---
 
 ## High-Level Architecture
+[`Interview question`](#interview-questions--answer-reference)
 
 ### Architecture Overview
 
@@ -200,6 +201,7 @@
 ---
 
 ## Component Design
+[`Interview question`](#interview-questions--answer-reference)
 
 ### 1. API Gateway
 **Responsibilities:**
@@ -232,6 +234,7 @@
 - Native UI components
 
 ### 3. Core Microservices
+[`Interview question`](#interview-questions--answer-reference)
 
 #### Ticket Service
 **Responsibilities:**
@@ -250,6 +253,7 @@
 - Session management
 
 **Data Storage:** PostgreSQL, Redis (sessions)
+[`Interview question`](#interview-questions--answer-reference)
 
 #### Project Service
 **Responsibilities:**
@@ -310,6 +314,7 @@
 ---
 
 ## Data Model
+[`Interview question`](#interview-questions--answer-reference)
 
 ### Core Entities
 
@@ -375,6 +380,7 @@
 ## API Design
 
 ### RESTful API Structure
+[`Interview question`](#interview-questions--answer-reference)
 
 #### Authentication Endpoints
 ```http
@@ -474,6 +480,7 @@ GET /api/v1/reports/time-tracking?project={projectId}&user={userId}
 ```
 
 ### BFF-Specific Endpoints
+[`Interview question`](#interview-questions--answer-reference)
 
 #### Web BFF
 ```http
@@ -543,6 +550,7 @@ GET /api/v1/desktop/analytics
 ---
 
 ## Scalability Considerations
+[`Interview question`](#interview-questions--answer-reference)
 
 ### Horizontal Scaling
 - **Stateless services** for easy scaling
@@ -573,6 +581,7 @@ GET /api/v1/desktop/analytics
 ---
 
 ## Trade-offs & Discussion Points
+[`Interview question`](#interview-questions--answer-reference)
 
 ### Consistency vs Availability
 **Strong Consistency:**
@@ -624,6 +633,7 @@ GET /api/v1/desktop/analytics
 ---
 
 ## Interview Discussion Points
+[`Interview question`](#interview-questions--answer-reference)
 
 ### Architecture Decisions
 1. **Why BFF pattern?** Client-specific optimizations and security
@@ -658,6 +668,7 @@ GET /api/v1/desktop/analytics
 ---
 
 ## SSL/TLS Termination at Load Balancer Level
+[`Interview question`](#interview-questions--answer-reference)
 
 ### **What is SSL/TLS Termination?**
 
@@ -677,6 +688,7 @@ SSL/TLS termination means the Load Balancer handles the encrypted HTTPS traffic 
 ```
 
 ### **Why Terminate at Load Balancer?**
+[`Interview question`](#interview-questions--answer-reference)
 
 #### **Performance Benefits:**
 ```markdown
@@ -800,7 +812,14 @@ SSL/TLS termination means the Load Balancer handles the encrypted HTTPS traffic 
 │  X-Forwarded-For: 192.168.1.100                          │
 │  X-Forwarded-Proto: https                                 │
 └─────────────────────────────────────────────────────────────┘
+
 ```
+## Note: Load balancer before API gateway
+### Why This Order Makes Sense
+- The API gateway itself can be a bottleneck if it's a single instance. By placing a load balancer in front, we can run multiple instances of our API gateway. The load balancer ensures that if one gateway instance fails or becomes overloaded, traffic is automatically redirected to the other healthy instances. This makes our entire system more resilient and allows us to scale the gateway layer horizontally as traffic increases.
+
+```
+
 
 ## JWT Token Flow in the Architecture
 
@@ -939,7 +958,7 @@ SSL/TLS termination means the Load Balancer handles the encrypted HTTPS traffic 
 ---
 
 ## Front-End Application Provisioning
-
+[`Interview question`](#interview-questions--answer-reference)
 ### Front-End Deployment Architecture
 
 ```markdown
@@ -1266,7 +1285,7 @@ This section maps potential interview questions to the relevant sections within 
     * **Refer to:** [`High-Level Architecture`](#high-level-architecture) > `Architecture Overview`
 	
 * **Question:** "Why did you choose a microservices architecture? What are the trade-offs you considered?"
-    * **Refer to:** `Trade-offs & Discussion Points` > `Monolith vs Microservices`
+    * **Refer to:** [`Trade-offs & Discussion Points`](#trade-offs--discussion-points) > `Monolith vs Microservices`
     * **Also mention:** [`Scalability Considerations`](#scalability-considerations) > `Horizontal Scaling`
 
 * **Question:** "What is the purpose of the BFF (Backend for Frontend) layer in your design?"
@@ -1274,7 +1293,7 @@ This section maps potential interview questions to the relevant sections within 
     * **Also mention:** `Component Design` > [`2. BFF Services`](#2-bff-services) to give specific examples.
 
 * **Question:** "You have both an API Gateway and a BFF layer. Can you explain the distinct roles of each?"
-    * **Refer to:** `Component Design` > [`1. API Gateway`](#1-api-gateway) and [`2. BFF Services`](#2-bff-services).
+    * **Refer to:** `Component Design` > [`1. API Gateway`](#1-api-gateway) and [`2. BFF Services`](#2-bff-services) and [Note](#note-load-balancer-before-api-gateway).
 
 ---
 
